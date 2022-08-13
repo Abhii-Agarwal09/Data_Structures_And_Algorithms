@@ -104,6 +104,48 @@ void print(Node * &head) {
 
 }
 
+// Reverse Linked list approach 1
+void reverseLinkedList(Node * &head) {
+  if (head == NULL || head -> next == NULL) {
+    return;
+  }
+  Node * curr = head;
+  Node * prev = NULL;
+  Node * forward = NULL;
+
+  while (curr != NULL) {
+    forward = curr -> next;
+    curr -> next = prev;
+    prev = curr;
+    curr = forward; 
+  }
+  head = prev;
+}
+
+// Reverse linked list approach 2 (recursive 1)
+void reverseLinkedListRecursiveOne(Node * &head, Node * curr, Node * prev) {
+
+  if (curr == NULL) {
+    head = prev;
+    return;
+  }
+  Node * forward = curr -> next;
+  reverseLinkedListRecursiveOne(head, forward, curr);
+  curr -> next = prev;
+
+}
+
+// Reverse linked list recursive 2
+Node * reverseLinkedListRecursiveTwo(Node * head) {
+  if (head == NULL || head -> next == NULL) {
+    return head;
+  }
+  Node * newHead = reverseLinkedListRecursiveTwo(head -> next);
+  head -> next -> next = head;
+  head -> next = NULL;
+  return newHead;
+}
+
 int main() {
   
   Node * node1 = new Node(10);
@@ -124,9 +166,15 @@ int main() {
 
   print(head);
 
-  deleteNode(head, 3);
+  // deleteNode(head, 3);
+  // reverseLinkedList(head);
+  // Node * curr = head;
+  // Node * prev = NULL;
+  // reverseLinkedListRecursiveOne(head, curr, prev);
 
-  print(head);
+  Node * newHead = reverseLinkedListRecursiveTwo(head);
+
+  print(newHead);
 
   return 0;
 }
